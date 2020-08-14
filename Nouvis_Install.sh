@@ -20,12 +20,12 @@ sudo apt-get install elasticsearch=6.2.0
 sudo systemctl daemon-reload
 sudo systemctl enable elasticsearch.service
 # change elasticsearch cluster config
-#sudo sed -i 's/#network.host: 192.168.0.1/network.host: ["localhost:9200"]/' /etc/elasticsearch/elasticsearch.yml
+sudo sed -i 's/#network.host: 192.168.0.1/network.host: ["localhost", "0.0.0.0"]/' /etc/elasticsearch/elasticsearch.yml
 sudo sed -i 's/#cluster.name: my-application/cluster.name: charan-cluster/' /etc/elasticsearch/elasticsearch.yml
 #sudo sed -i 's/#node.name: node-1/node.name: '$MY_HOSTNAME'/' /etc/elasticsearch/elasticsearch.yml
 # Starting The Services
 sudo systemctl start elasticsearch.service
-sleep 35
+sleep 25
 #validate elastic search
 while true
 do
@@ -34,7 +34,7 @@ do
     echo "Data storage service is successfully installed and validated"
     break
   else
-    echo "Got $STATUS :( Not done yet, kindly Wait for few seconds to become succesful"
+    echo "Got $STATUS :( Not done yet..."
   fi
   sleep 10
 done
@@ -45,16 +45,16 @@ sudo -i service kibana start
 sleep 10
 while true
 do
- STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:5601)
-  if [ $STATUS -eq 200 ]; then
-    echo "Data Visualization is successfully installed and validated and is running on 5601 port"
+STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:5601)
+if [ $STATUS -eq 200 ]; then
+echo "Data Visualization is successfully installed and validated and is running on 5601 port"
     break
   else
-    echo "Got $STATUS :( Not done yet, Kindly wait for few seconds to complete"
+    echo "Got $STATUS :( Not done yet..."
   fi
   sleep 10
 done
-#mv /home/Nouvis-Installer/kibana-6.2.0-amd64.deb /home/Nouvis-Installer/temp
+mv /home/Nouvis-Installer/kibana-6.2.0-amd64.deb /home/Nouvis-Installer/temp
 	
 
 
